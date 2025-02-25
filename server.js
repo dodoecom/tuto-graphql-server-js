@@ -14,9 +14,11 @@ const typeDefs = gql`
 
   type Mutation {
     addUser(name: String!, age: Int!): User
+    updateUser(id: ID!, name: String!, age: Int!): User
   }
 `;
 
+// Sample Data
 let users = [
   { id: 1, name: 'David Diaz', age: 25 },
   { id: 2, name: 'Jane Doe', age: 28 },
@@ -33,6 +35,14 @@ const resolvers = {
       users.push(newUser);
       return newUser;
     },
+    updateUser: (_, {id, name, age}) => {
+      const userIndex = users.findIndex(user => parseInt(user.id) === parseInt(id));
+      if (userIndex === -1) {
+        throw new Error('User not found');
+      }
+      users[userIndex] = { id, name, age };
+      return users[userIndex];
+    }
   },
 }
 
