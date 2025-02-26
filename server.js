@@ -15,6 +15,7 @@ const typeDefs = gql`
   type Mutation {
     addUser(name: String!, age: Int!): User
     updateUser(id: ID!, name: String!, age: Int!): User
+    deleteUser(id: ID!): User
   }
 `;
 
@@ -42,6 +43,15 @@ const resolvers = {
       }
       users[userIndex] = { id, name, age };
       return users[userIndex];
+    },
+    deleteUser: (_, {id}) => {
+      const userIndex = users.findIndex(user => parseInt(user.id) === parseInt(id));
+      if (userIndex === -1) {
+        throw new Error('User not found');
+      }
+      const deletedUser = users[userIndex];
+      users.slice(userIndex, 1);
+      return deletedUser;
     }
   },
 }
