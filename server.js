@@ -49,8 +49,7 @@ const resolvers = {
       if (userIndex === -1) {
         throw new Error('User not found');
       }
-      const deletedUser = users[userIndex];
-      users.slice(userIndex, 1);
+      const deletedUser = users.slice(userIndex, 1)[0];
       return deletedUser;
     }
   },
